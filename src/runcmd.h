@@ -1,0 +1,14 @@
+#ifndef RUNCMD_H
+#define RUNCMD_H
+
+#define READ  0
+#define WRITE 1
+
+char line[1024];
+int command_pipe[2];
+
+int command(int input, int first, int last, char **args);
+int run(char* cmd, int input, int first, int last);
+
+#endif
+
