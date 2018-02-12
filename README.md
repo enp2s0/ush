@@ -5,6 +5,8 @@
 [![Downloads](https://img.shields.io/github/downloads/noahb01/ush/total.svg)](https://github.com/noahb01/ush/releases)
 [![Latest stable release](https://img.shields.io/github/release/noahb01/ush.svg?maxAge=3600)](https://github.com/noahb01/ush/releases)
 
+*Pronounced micro-shell!*  
+
 A micro-shell for the Linux. It supports piping/redirection and has a few builtins. It is considerably smaller that bash, zsh, etc.
 It also has no dependencies, making it extremely portable.  
   
