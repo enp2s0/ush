@@ -7,6 +7,7 @@ int builtin_cd(char argc, char **arguments);
 int builtin_pwd(char argc, char **arguments);
 int builtin_setvar(char argc, char **arguments);
 int builtin_getvar(char argc, char **arguments);
+int builtin_delvar(char argc, char **arguments);
 
 int check_builtin(char *name);
 int run_builtin(char **args);

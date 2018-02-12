@@ -63,6 +63,28 @@ char *get_var(char *name)
 	return NULL;
 }
 
+int del_var(char *name)
+{
+	int i;
+	int found = FALSE;
+	
+	for(i = 0; i < num_vars(); i++)
+		if(strcmp(name, var_names[i]) == 0)
+		{
+			found = TRUE;
+			break;
+		}
+	
+	if(found == FALSE)
+	{
+		fprintf(stderr, "No such variable!\n");
+		return 1;
+	}
+	
+	strcpy(var_names[i], "\0");
+	return 0;
+}
+
 int num_vars(void)
 {
 	return var_slots_filled;

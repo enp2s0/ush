@@ -20,7 +20,8 @@ char *builtin_names[] =
 	"cd",
 	"pwd",
 	"setvar",
-	"getvar"
+	"getvar",
+	"delvar"
 };
 
 int (*builtin_func[])(char, char **) = {
@@ -29,7 +30,8 @@ int (*builtin_func[])(char, char **) = {
 	&builtin_cd,
 	&builtin_pwd,
 	&builtin_setvar,
-	&builtin_getvar
+	&builtin_getvar,
+	&builtin_delvar
 };
 
 int builtin_num()
@@ -163,4 +165,15 @@ int builtin_getvar(char argc, char **argv)
 		return 1;
 	}
 	printf("%s\n", get_var(argv[1]));
+}
+
+int builtin_delvar(char argc, char **argv)
+{
+	if(argc != 2)
+	{
+		fprintf(stderr, "getvar: expected exactly 1 argument!\n");
+		return 1;		
+	}
+	
+	return del_var(argv[1]);
 }
