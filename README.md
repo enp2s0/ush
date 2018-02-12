@@ -4,7 +4,7 @@
 [![Build status](https://img.shields.io/travis/noahb01/ush.svg)](https://travis-ci.org/noahb01/ush)
 [![Downloads](https://img.shields.io/github/downloads/noahb01/ush/total.svg)](https://github.com/noahb01/ush/releases)
 
-A micro-shell for the Linux. It supports piping a redirection and has a few builtins. It is considerably smaller that bash, zsh, etc.
+A micro-shell for the Linux. It supports piping and redirection and has a few builtins. It is considerably smaller that bash, zsh, etc.
 It also has no dependencies, making it extremely portable.  
   
 The build process is extremely simple:  
