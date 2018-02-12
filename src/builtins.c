@@ -16,11 +16,13 @@ char *builtin_names[] =
 {
 	"help",
 	"exit",
+	"cd"
 };
 
-int (*builtin_func[])(char **) = {
+int (*builtin_func[])(char, char **) = {
 	&builtin_help,
 	&builtin_exit,
+	&builtin_cd
 };
 
 int builtin_num()
@@ -42,14 +44,18 @@ int run_builtin(char **args)
 {
 	int i;
 	int retval;
+	char argc;
 	
 	for(i = 0; i < builtin_num(); i++)
 		if(strcmp(args[0], builtin_names[i]) == 0)
 			break;
-	return builtin_func[i](args);
+	
+	argc = -1;
+	while (args[++argc] != NULL) ;;
+	return (*builtin_func[i])(argc, args);
 }
 
-int builtin_help(char **arguments)
+int builtin_help(char argc, char **arguments)
 {
 	printf(CFG_LONG_NAME "\n");
 	printf("Written by Noah Brecht\n");
@@ -63,9 +69,41 @@ int builtin_help(char **arguments)
 	return 0;
 }
 
-int builtin_exit(char **arguments)
+int builtin_exit(char argc, char **arguments)
 {
 	exit(EXIT_SUCCESS);
 	fprintf(stderr, "Failed to kill process!\n");
 	return -1;
+}
+
+int builtin_cd(char argc, char **arguments)
+{
+	if(argc != 2)
+	{
+		fprintf(stderr, "cd: expects exactly one argument!\n");
+		return 1;
+	}
+	
+	char* path = malloc(sizeof(arguments[1] + 2));
+	strcpy(path, arguments[1]);
+	strcat(path, "/");
+	
+	errno = 0;
+	if(chdir(path) != 0)
+	{
+		switch(errno)
+		{
+			case EPERM:
+				fprintf(stderr, "%s: %s: Access denied!\n", CFG_SHORT_NAME, arguments[0]);
+				break;
+			case ENOENT:
+				fprintf(stderr, "%s: %s: No such file or directory!\n", CFG_SHORT_NAME, arguments[0]);
+				break;
+			default:
+				fprintf(stderr, "%s, %s: Unknown execution error!\n", CFG_SHORT_NAME, arguments[0]);
+				break;
+		}
+		return 1;
+	}
+	return 0;
 }
