@@ -16,13 +16,11 @@ char *builtin_names[] =
 {
 	"help",
 	"exit",
-	"shconf"
 };
 
 int (*builtin_func[])(char **) = {
 	&builtin_help,
 	&builtin_exit,
-	&builtin_shconf
 };
 
 int builtin_num()
@@ -45,16 +43,23 @@ int run_builtin(char **args)
 	int i;
 	int retval;
 	
-	printf("Scanning...\n");
 	for(i = 0; i < builtin_num(); i++)
 		if(strcmp(args[0], builtin_names[i]) == 0)
 			break;
-	printf("Running, i = %d\n", i);
 	return builtin_func[i](args);
 }
 
 int builtin_help(char **arguments)
 {
+	printf(CFG_LONG_NAME "\n");
+	printf("Written by Noah Brecht\n");
+	printf("\n");
+	
+	printf("Shell Builtins:\n");
+	int cnt;
+	for(cnt = 0; cnt < builtin_num(); cnt++)
+		printf("%s\n", builtin_names[cnt]);
+	
 	return 0;
 }
 
@@ -63,9 +68,4 @@ int builtin_exit(char **arguments)
 	exit(EXIT_SUCCESS);
 	fprintf(stderr, "Failed to kill process!\n");
 	return -1;
-}
-
-int builtin_shconf(char **arguments)
-{
-	return 0;
 }
