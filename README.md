@@ -7,7 +7,7 @@
 
 *Pronounced micro-shell!*  
 
-A micro-shell for the Linux. It supports piping/redirection and has a few builtins. It is considerably smaller that bash, zsh, etc.
+A micro-shell for the Linux OS. It supports piping/redirection and has a few builtins. It is considerably smaller that bash, zsh, etc.
 It also has no dependencies, making it extremely portable.  
   
 The build process is extremely simple:  
