@@ -35,14 +35,6 @@ char **split(char* cmd)
  
 	args[i] = NULL;
 	
-	//int cnt = 0;
-	//while(1)
-	//{
-	//	printf("%s\n", args[cnt]);
-	//	cnt++;
-	//	if(args[cnt] == NULL) break;
-	//}
-	//printf("Done!\n");
 	return args;
 }
 
