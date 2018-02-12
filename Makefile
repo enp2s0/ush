@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-c
 LDFLAGS=
-SOURCES=src/main.c src/runcmd.c src/parser.c src/prochelp.c src/builtins.c
+SOURCES=src/main.c src/runcmd.c src/parser.c src/prochelp.c src/builtins.c src/vars.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=ush
 

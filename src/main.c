@@ -12,6 +12,7 @@
 #include "runcmd.h"
 #include "parser.h"
 #include "prochelp.h"
+#include "vars.h"
  
 char* args[CFG_BUFSIZE];
 
