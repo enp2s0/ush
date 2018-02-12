@@ -1,0 +1,11 @@
+language: c
+
+before_install:
+  - echo "Starting build..."
+
+script:
+  - make clean
+  - make all
+
+after_success:
+  - echo "Build complete."
