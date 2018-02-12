@@ -16,13 +16,15 @@ char *builtin_names[] =
 {
 	"help",
 	"exit",
-	"cd"
+	"cd",
+	"pwd"
 };
 
 int (*builtin_func[])(char, char **) = {
 	&builtin_help,
 	&builtin_exit,
-	&builtin_cd
+	&builtin_cd,
+	&builtin_pwd
 };
 
 int builtin_num()
@@ -52,7 +54,9 @@ int run_builtin(char **args)
 	
 	argc = -1;
 	while (args[++argc] != NULL) ;;
-	return (*builtin_func[i])(argc, args);
+	retval = (*builtin_func[i])(argc, args);
+	free(args);
+	return retval;
 }
 
 int builtin_help(char argc, char **arguments)
@@ -103,7 +107,27 @@ int builtin_cd(char argc, char **arguments)
 				fprintf(stderr, "%s, %s: Unknown execution error!\n", CFG_SHORT_NAME, arguments[0]);
 				break;
 		}
+		free(path);
 		return 1;
 	}
+	
+	free(path);
 	return 0;
 }
+
+int builtin_pwd(char argc, char **argv)
+{
+	char* cwd = malloc(CFG_BUFSIZE * sizeof(char));
+	if (getcwd(cwd, CFG_BUFSIZE * sizeof(char)) != NULL)
+		printf("%s\n", cwd);
+	else
+	{
+		perror("getcwd() error");
+		free(cwd);
+		return 1;
+	}
+	
+	free(cwd);
+	return 0;
+}
+

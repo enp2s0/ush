@@ -46,6 +46,7 @@ int command(int input, int first, int last, char **args)
 					fprintf(stderr, "%s, %s: Unknown execution error!\n", CFG_SHORT_NAME, args[0]);
 					break;
 			}
+			free(args);
 			_exit(EXIT_FAILURE);
 		}
 	}
@@ -58,6 +59,7 @@ int command(int input, int first, int last, char **args)
 	if (last == 1)
 		close(pipettes[READ]);
  
+	free(args);
 	return pipettes[READ];
 }
 
@@ -73,5 +75,7 @@ int run(char* cmd, int input, int first, int last)
 		register_process();
 		return command(input, first, last, args);
 	}
+	
+	
 	return 0;
 }
