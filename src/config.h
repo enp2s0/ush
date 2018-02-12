@@ -6,6 +6,9 @@
 #define CFG_PROMPT				"> "
 #define CFG_BUFSIZE				2048
 
+#define TRUE					1
+#define FALSE					0
+
 //#define NULL					0
 
 #endif

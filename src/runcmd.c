@@ -68,8 +68,8 @@ int run(char* cmd, int input, int first, int last)
 	args = split(cmd);
 	
 	if (args[0] != NULL) {
-		if (strcmp(args[0], "exit") == 0) 
-			exit(0);
+		if(check_builtin(args[0]) == TRUE)
+			return run_builtin(args);
 		register_process();
 		return command(input, first, last, args);
 	}
