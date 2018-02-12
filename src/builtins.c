@@ -10,6 +10,7 @@
 
 #include "config.h"
 #include "builtins.h"
+#include "vars.h"
 
 
 char *builtin_names[] = 
@@ -17,14 +18,18 @@ char *builtin_names[] =
 	"help",
 	"exit",
 	"cd",
-	"pwd"
+	"pwd",
+	"setvar",
+	"getvar"
 };
 
 int (*builtin_func[])(char, char **) = {
 	&builtin_help,
 	&builtin_exit,
 	&builtin_cd,
-	&builtin_pwd
+	&builtin_pwd,
+	&builtin_setvar,
+	&builtin_getvar
 };
 
 int builtin_num()
@@ -131,3 +136,31 @@ int builtin_pwd(char argc, char **argv)
 	return 0;
 }
 
+int builtin_setvar(char argc, char **argv)
+{
+	if(argc != 3)
+	{
+		fprintf(stderr, "setvar: expected exactly 2 arguments!\n");
+		return 1;
+	}
+	
+	return define_var(argv[1], argv[2]);
+}
+
+int builtin_getvar(char argc, char **argv)
+{
+	char varval[CFG_MAX_VAR_VALUE];
+	
+	if(argc != 2)
+	{
+		fprintf(stderr, "getvar: expected exactly 1 argument!\n");
+		return 1;		
+	}
+	
+	if(get_var(argv[1]) == NULL)
+	{
+		fprintf(stderr, "No such variable!\n");
+		return 1;
+	}
+	printf("%s\n", get_var(argv[1]));
+}
