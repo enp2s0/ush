@@ -46,7 +46,7 @@ int ush_main_loop()
 }
 
 int main(char *argc, char **argv)
-{
+{	
 	printf(CFG_LONG_NAME "\n");
 	return ush_main_loop();
 }
