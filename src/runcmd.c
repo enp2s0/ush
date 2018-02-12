@@ -70,8 +70,13 @@ int run(char* cmd, int input, int first, int last)
 	args = split(cmd);
 	
 	if (args[0] != NULL) {
-		if(check_builtin(args[0]) == TRUE)
+		if(check_builtin(args[0]) == TRUE && args[0][strlen(args[0])-1] != '^')
 			return run_builtin(args);
+		if(args[0][strlen(args[0])-1] == '^')
+		{
+			printf("WARN: Overriding builtin function!\n");
+			args[0][strlen(args[0])-1] = '\0';
+		}
 		register_process();
 		return command(input, first, last, args);
 	}
