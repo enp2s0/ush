@@ -8,11 +8,8 @@
 #include <sys/wait.h>
 
 #include "config.h"
-#include "builtins.h"
 #include "runcmd.h"
-#include "parser.h"
 #include "prochelp.h"
-#include "vars.h"
  
 char* args[CFG_BUFSIZE];
 
