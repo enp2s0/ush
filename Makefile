@@ -1,9 +1,12 @@
 CC=gcc
 CFLAGS=-c
 LDFLAGS=
-SOURCES=src/main.c src/runcmd.c src/parser.c src/prochelp.c src/builtins.c src/vars.c
+SOURCES=$(wildcard src/*.c)
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=ush
+
+BUILDFILES=$(OBJECTS) $(EXECUTABLE)
+.PHONY=all rebuild
 
 all: $(SOURCES) $(EXECUTABLE)
     
@@ -16,7 +19,7 @@ $(EXECUTABLE): $(OBJECTS)
 	@$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	@echo "[ CL ]  " $(OBJECTS)
-	@rm -f $(OBJECTS)
-	@echo "[ CL ]  " $(EXECUTABLE)
-	@rm -f $(EXECUTABLE)
+	@for FILE in $(BUILDFILES); do \
+		echo "[ RM ]  " $$FILE; \
+		rm -rf $$FILE; \
+	done
