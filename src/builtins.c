@@ -150,9 +150,7 @@ int builtin_setvar(char argc, char **argv)
 }
 
 int builtin_getvar(char argc, char **argv)
-{
-	char varval[CFG_MAX_VAR_VALUE];
-	
+{	
 	if(argc != 2)
 	{
 		fprintf(stderr, "getvar: expected exactly 1 argument!\n");

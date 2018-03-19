@@ -6,8 +6,6 @@
 #define CFG_PROMPT				"> "
 #define CFG_BUFSIZE				2048
 #define CFG_MAX_VARS				128
-#define CFG_MAX_VAR_LEN				128
-#define CFG_MAX_VAR_VALUE			2048
 
 #ifndef TRUE
 #define TRUE					1

@@ -10,6 +10,7 @@
 #include "config.h"
 #include "runcmd.h"
 #include "prochelp.h"
+#include "vars.h"
  
 char* args[CFG_BUFSIZE];
 
@@ -43,7 +44,8 @@ int ush_main_loop()
 }
 
 int main(char *argc, char **argv)
-{	
+{
+        init_vars();
 	printf(CFG_LONG_NAME "\n");
 	return ush_main_loop();
 }
