@@ -7,7 +7,7 @@ DEPS=$(SOURCES:.c=.d)
 EXECUTABLE=ush
 
 BUILDFILES=$(OBJECTS) $(EXECUTABLE) $(DEPS)
-.PHONY=all rebuild
+.PHONY=all
 
 all: $(SOURCES) $(EXECUTABLE)
     
