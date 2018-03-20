@@ -1,11 +1,12 @@
 CC=gcc
-CFLAGS=-c
+CFLAGS=-MD -MP -c
 LDFLAGS=
 SOURCES=$(wildcard src/*.c)
 OBJECTS=$(SOURCES:.c=.o)
+DEPS=$(SOURCES:.c=.d)
 EXECUTABLE=ush
 
-BUILDFILES=$(OBJECTS) $(EXECUTABLE)
+BUILDFILES=$(OBJECTS) $(EXECUTABLE) $(DEPS)
 .PHONY=all rebuild
 
 all: $(SOURCES) $(EXECUTABLE)
@@ -23,3 +24,5 @@ clean:
 		echo "[ RM ]  " $$FILE; \
 		rm -rf $$FILE; \
 	done
+
+-include $(DEPS)
