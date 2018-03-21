@@ -17,7 +17,7 @@ char* args[CFG_BUFSIZE];
 int ush_main_loop()
 {
 	while (1) {
-		printf(CFG_PROMPT);
+		printf(get_var(CFG_PROMPT_VAR));
 		fflush(NULL);
  
 		if (!fgets(line, CFG_BUFSIZE, stdin)) 
@@ -46,6 +46,8 @@ int ush_main_loop()
 int main(char *argc, char **argv)
 {
         init_vars();
+        define_var(CFG_PROMPT_VAR, CFG_PROMPT);
+        
 	printf(CFG_LONG_NAME "\n");
 	return ush_main_loop();
 }

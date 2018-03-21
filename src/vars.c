@@ -37,12 +37,20 @@ int define_var(char *name, char *value)
 {
 	int i;
 	int found = FALSE;
+	int rename = FALSE;
 
 	for(i = 0; i < CFG_MAX_VARS; i++)
 	{
 		if(var_names[i][0] == '\0')
 		{
 			found = TRUE;
+			break;
+		}
+		
+		if(strcmp(var_names[i], name) == 0)
+		{
+			found = TRUE;
+			rename = TRUE;
 			break;
 		}
 	}
@@ -71,7 +79,8 @@ int define_var(char *name, char *value)
 	strcpy(var_names[i], name);
 	strcpy(var_value[i], value);
 	
-	num_curr_vars++;
+	if(rename == FALSE)
+		num_curr_vars++;
 		
 	return 0;
 }
