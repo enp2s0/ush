@@ -21,7 +21,8 @@ char *builtin_names[] =
 	"pwd",
 	"setvar",
 	"getvar",
-	"delvar"
+	"delvar",
+	"lsvar"
 };
 
 char *builtin_descs[] = 
@@ -32,7 +33,8 @@ char *builtin_descs[] =
 	"Print the current working directiory.",
 	"Define a shell variable.",
 	"Read a shell variable.",
-	"Delete a shell variable."
+	"Delete a shell variable.",
+	"List defined shell variables."
 };
 
 int (*builtin_func[])(char, char **) = {
@@ -42,7 +44,8 @@ int (*builtin_func[])(char, char **) = {
 	&builtin_pwd,
 	&builtin_setvar,
 	&builtin_getvar,
-	&builtin_delvar
+	&builtin_delvar,
+	&builtin_lsvar
 };
 
 int builtin_num()
@@ -197,4 +200,29 @@ int builtin_delvar(char argc, char **argv)
 	}
 	
 	return del_var(argv[1]);
+}
+
+int builtin_lsvar(char argc, char **argv)
+{
+	int c = 0;
+	int i = 0;
+	int spaces = 0;
+	int maxlen = 0;
+	
+	for(i = 0; i < CFG_MAX_VARS; i++)
+		if(get_var_name_idx(i) != NULL)
+			if(strlen(get_var_name_idx(i)) > maxlen)
+				maxlen = strlen(get_var_name_idx(i));
+					
+	for(c = 0; c < CFG_MAX_VARS; c++)
+	{
+		if(get_var_name_idx(c) != NULL)
+		{
+			spaces = maxlen - strlen(get_var_name_idx(c));
+			printf("%s", get_var_name_idx(c));
+			for(i = 0; i < spaces; i++)
+				printf(" ");
+			printf(": '%s'\n", get_var_idx(c));
+		}
+	}
 }
