@@ -24,6 +24,17 @@ char *builtin_names[] =
 	"delvar"
 };
 
+char *builtin_descs[] = 
+{
+	"Display this help text.",
+	"Quit uSH.",
+	"Change the current working directory.",
+	"Print the current working directiory.",
+	"Define a shell variable.",
+	"Read a shell variable.",
+	"Delete a shell variable."
+};
+
 int (*builtin_func[])(char, char **) = {
 	&builtin_help,
 	&builtin_exit,
@@ -74,8 +85,20 @@ int builtin_help(char argc, char **arguments)
 	
 	printf("Shell Builtins:\n");
 	int cnt;
+	int len;
+	int maxlen = 0;
+	int space;
+	
 	for(cnt = 0; cnt < builtin_num(); cnt++)
-		printf("%s\n", builtin_names[cnt]);
+		if(strlen(builtin_names[cnt]) > maxlen) maxlen = strlen(builtin_names[cnt]);
+	
+	for(cnt = 0; cnt < builtin_num(); cnt++)
+	{
+		len = maxlen - strlen(builtin_names[cnt]);
+		printf("%s", builtin_names[cnt]);
+		for(space = 0; space < len; space++) printf(" ");
+		printf(": %s\n", builtin_descs[cnt]);
+	}
 	
 	return 0;
 }
