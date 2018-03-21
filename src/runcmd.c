@@ -87,6 +87,11 @@ int run(char* cmd, int input, int first, int last)
 			if(strcmp(get_var_name_idx(c), args[i]) == 0)
 			{
 				args[i] = malloc(sizeof(get_var_idx(c)));
+				if(args[i] == NULL)
+				{
+					fprintf(stderr, "Memory allocation error!\n");
+					return -1;
+				}
 				strcpy(args[i], get_var_idx(c));
 			}
 		}

@@ -127,6 +127,11 @@ int del_var(char *name)
 	
         free(var_names[i]);
         var_names[i] = malloc(sizeof(char));
+        if(var_names[i] == NULL)
+        {
+		fprintf(stderr, "Memory allocation error!\n");
+		return -1;
+	}
         strcpy(var_names[i], "\0");
         free(var_value[i]);
 	return 0;
