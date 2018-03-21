@@ -86,6 +86,18 @@ char *get_var(char *name)
 	return NULL;
 }
 
+char *get_var_idx(int index)
+{
+	if(var_names[index][0] != '\0') return var_value[index];
+	return NULL;
+}
+
+char *get_var_name_idx(int index)
+{
+	if(var_names[index][0] != '\0') return var_names[index];
+	return NULL;
+}
+
 int del_var(char *name)
 {
 	int i;
