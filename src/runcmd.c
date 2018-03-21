@@ -69,6 +69,7 @@ int run(char* cmd, int input, int first, int last)
 	char **args;
 	int i = 0;
 	int c = 0;
+	int found = FALSE;
 
 	args = split(cmd);
 	
@@ -86,6 +87,7 @@ int run(char* cmd, int input, int first, int last)
 		{
 			if(strcmp(get_var_name_idx(c), args[i]) == 0)
 			{
+				found = TRUE;
 				args[i] = malloc(sizeof(get_var_idx(c)));
 				if(args[i] == NULL)
 				{
@@ -94,6 +96,12 @@ int run(char* cmd, int input, int first, int last)
 				}
 				strcpy(args[i], get_var_idx(c));
 			}
+		}
+		
+		if(found == FALSE)
+		{
+			fprintf(stderr, "$%s: No such variable!\n", args[i]);
+			return -1;
 		}
 		i++;
 	}
