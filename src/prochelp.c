@@ -16,7 +16,7 @@ void register_process()
 	n += 1;
 }
 
-void cleanup()
+void wait_on_process()
 {
 	int i;
 	for (i = 0; i < n; ++i) 

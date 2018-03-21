@@ -38,7 +38,7 @@ int ush_main_loop()
 			first = 0;
 		}
 		input = run(cmd, input, first, 1);
-		cleanup();
+		wait_on_process();
 	}
 	return 0;
 }

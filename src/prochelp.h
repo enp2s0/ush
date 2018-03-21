@@ -2,6 +2,6 @@
 #define PROCHELP_H
 
 void register_process();
-void cleanup();
+void wait_on_process();
 
 #endif
