@@ -215,7 +215,6 @@ int builtin_lsvar(char argc, char **argv)
 				maxlen = strlen(get_var_name_idx(i));
 					
 	for(c = 0; c < CFG_MAX_VARS; c++)
-	{
 		if(get_var_name_idx(c) != NULL)
 		{
 			spaces = maxlen - strlen(get_var_name_idx(c));
@@ -224,5 +223,4 @@ int builtin_lsvar(char argc, char **argv)
 				printf(" ");
 			printf(": '%s'\n", get_var_idx(c));
 		}
-	}
 }

@@ -20,7 +20,7 @@ int init_vars()
 	int i;
 	
 	for(i = 0; i < CFG_MAX_VARS; i++)
-        {
+	{
                 var_names[i] = malloc(sizeof(char));
                 if(var_names == NULL)
                 {
@@ -28,7 +28,7 @@ int init_vars()
                         return -1;
                 }
 		var_names[i][0] = '\0';
-        }
+	}
 	
 	return 0;
 }
