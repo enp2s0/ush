@@ -24,6 +24,7 @@ void init_shell(void)
 	define_var("SH_PROMPT", CFG_PROMPT);
 	define_var("SH_NAME", CFG_SHORT_NAME);
 	define_var("SH_DESC", CFG_LONG_NAME);
+	define_var("SH_VERSION", CFG_VERSION);
 	sprintf(digits, "%d", CFG_BUFSIZE);
 	define_var("SH_BUFSIZE", digits);
 	sprintf(digits, "%d", CFG_MAX_VARS);
@@ -36,7 +37,7 @@ void init_shell(void)
 int ush_main_loop()
 {
 	while (1) {
-		printf(get_var("SH_PROMPT"));
+		printf("%s ", get_var("SH_PROMPT"));
 		fflush(NULL);
  
 		if (!fgets(line, CFG_BUFSIZE, stdin)) 
