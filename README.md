@@ -3,7 +3,6 @@
 
 [![Build status](https://img.shields.io/travis/noahb01/ush.svg)](https://travis-ci.org/noahb01/ush)
 [![Downloads](https://img.shields.io/github/downloads/noahb01/ush/total.svg)](https://github.com/noahb01/ush/releases)
-[![Latest stable release](https://img.shields.io/github/release/noahb01/ush.svg?maxAge=3600)](https://github.com/noahb01/ush/releases)
 
 *Pronounced micro-shell!*  
 
