@@ -7,7 +7,7 @@
 #define CFG_PROMPT_VAR				"PROMPT"				// The variable to store the prompt in.
 #define CFG_BUFSIZE				2048					// The default size of internal text buffers.
 #define CFG_MAX_VARS				2048					// The maximum number of variables allowed in one shell instance.
-#define CFG_VERSION				"0.3-alpha"				// The version of uSH
+#define CFG_VERSION				"0.3"					// The version of uSH
 
 #ifndef TRUE
 #define TRUE					1					// TRUE should always be 1
