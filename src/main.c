@@ -14,10 +14,29 @@
  
 char* args[CFG_BUFSIZE];
 
+void init_shell(void)
+{
+	char digits[16];
+	
+	printf("Loading...");
+	init_vars();
+	
+	define_var("SH_PROMPT", CFG_PROMPT);
+	define_var("SH_NAME", CFG_SHORT_NAME);
+	define_var("SH_DESC", CFG_LONG_NAME);
+	sprintf(digits, "%d", CFG_BUFSIZE);
+	define_var("SH_BUFSIZE", digits);
+	sprintf(digits, "%d", CFG_MAX_VARS);
+	define_var("SH_MAXVARS", digits);
+	
+	printf("[ DONE ]\n");
+	printf(CFG_LONG_NAME "\n");
+}
+
 int ush_main_loop()
 {
 	while (1) {
-		printf(get_var(CFG_PROMPT_VAR));
+		printf(get_var("SH_PROMPT"));
 		fflush(NULL);
  
 		if (!fgets(line, CFG_BUFSIZE, stdin)) 
@@ -45,9 +64,6 @@ int ush_main_loop()
 
 int main(char *argc, char **argv)
 {
-        init_vars();
-        define_var(CFG_PROMPT_VAR, CFG_PROMPT);
-        
-	printf(CFG_LONG_NAME "\n");
+	init_shell();
 	return ush_main_loop();
 }
