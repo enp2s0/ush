@@ -23,6 +23,6 @@ Pipe multiple commands together:
 Run a system command with the same name as a builtin command:  
 `:? <command>^ <arguments>`  
 Use a shell variable as a command:  
-`> $var <arguments>`  
+`:? $var <arguments>`  
 Use a shell variable as an argument:  
 `:? <command> $var`  
