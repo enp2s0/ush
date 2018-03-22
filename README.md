@@ -17,8 +17,12 @@ The build process is extremely simple:
 # Syntax
 
 Run a single command:  
-`> <command> <arguments>`  
+`:? <command> <arguments>`  
 Pipe multiple commands together:  
-`> <command1> <arg1> | <command2> <arg2>`  
+`:? <command1> <arg1> | <command2> <arg2>`  
 Run a system command with the same name as a builtin command:  
-`> <command>^ <arguments>`  
+`:? <command>^ <arguments>`
+Use a shell variable as a command:
+`> $var <arguments>`
+Use a shell variable as an argument:
+`:? <command> $var`
