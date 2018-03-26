@@ -11,37 +11,58 @@
 #include "runcmd.h"
 #include "prochelp.h"
 #include "vars.h"
- 
-char* args[CFG_BUFSIZE];
+#include "cfgopts.h"
 
 void init_shell(void)
 {
 	char digits[16];
 	
-	printf("Loading...");
+	printf("Loading...\n");
 	init_vars();
 	
 	define_var("SH_PROMPT", CFG_PROMPT);
 	define_var("SH_NAME", CFG_SHORT_NAME);
 	define_var("SH_DESC", CFG_LONG_NAME);
 	define_var("SH_VERSION", CFG_VERSION);
-	sprintf(digits, "%d", CFG_BUFSIZE);
+	sprintf(digits, "%d", get_bufsize());
 	define_var("SH_BUFSIZE", digits);
 	sprintf(digits, "%d", CFG_MAX_VARS);
 	define_var("SH_MAXVARS", digits);
 	
-	printf("[ DONE ]\n");
+	if(get_bufsize() != CFG_BUFSIZE)
+	{
+		printf("Warning: Using custom buffer size: %d bytes.\n", get_bufsize());
+	}
+	
+	printf("Done!\n");
 	printf(CFG_LONG_NAME "\n");
 }
 
 int ush_main_loop()
 {
 	while (1) {
-		printf("%s ", get_var("SH_PROMPT"));
+		char* line;
+		
+		printf("%d %s ", retval, get_var("SH_PROMPT"));
 		fflush(NULL);
+		
+		line = malloc(get_bufsize() * sizeof(char));
+		if(line == NULL)
+		{
+			fprintf(stderr, "Memory allocation error!\n");
+			return -1;
+		}
  
-		if (!fgets(line, CFG_BUFSIZE, stdin)) 
-			return 0;
+		if (!fgets(line, get_bufsize(), stdin)) 
+			return -1;
+		
+		if ((strlen(line) <= 0) ||(line[strlen(line) - 1] != '\n'))
+		{
+			char ch;
+			while ((ch =getchar()) != '\n' && ch != EOF);
+			fprintf(stderr, "Error: Line is truncated! Increase bufsize with --bufsize or 'buffer'.\n");
+			continue;
+		}
  
 		int input = 0;
 		int first = 1;
@@ -63,8 +84,34 @@ int ush_main_loop()
 	return 0;
 }
 
-int main(char *argc, char **argv)
+int main(char argc, char **argv)
 {
+	int i = 1;
+	
+	for(i = 1; i < argc; i++)
+	{
+		if(strcmp(argv[i], "--help") == 0)
+		{
+			printf("%s\n", CFG_LONG_NAME);
+			printf("Version %s", CFG_VERSION);
+			printf("\n");
+			printf("Options:\n");
+			printf("--help   : Display this help.\n");
+			printf("--version: Display version info.\n");
+			printf("--bufsize: Override default text buffer size.\n");
+			return 0;
+		}
+		else if(strcmp(argv[i], "--version") == 0)
+		{
+			printf("%s v%s\n", CFG_SHORT_NAME, CFG_VERSION);
+			return 0; 
+		}
+		else if(strcmp(argv[i], "--bufsize") == 0)
+		{
+			set_bufsize(atoi(argv[i + 1]));
+		}
+	}
+	
 	init_shell();
 	return ush_main_loop();
 }

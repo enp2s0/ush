@@ -119,5 +119,5 @@ int run(char* cmd, int input, int first, int last)
 	}
 	
 	
-	return 0;
+	return -1;
 }

@@ -11,6 +11,7 @@
 #include "config.h"
 #include "builtins.h"
 #include "vars.h"
+#include "cfgopts.h"
 
 
 char *builtin_names[] = 
@@ -22,7 +23,8 @@ char *builtin_names[] =
 	"setvar",
 	"getvar",
 	"delvar",
-	"lsvar"
+	"lsvar",
+	"buffer"
 };
 
 char *builtin_descs[] = 
@@ -34,7 +36,8 @@ char *builtin_descs[] =
 	"Define a shell variable.",
 	"Read a shell variable.",
 	"Delete a shell variable.",
-	"List defined shell variables."
+	"List defined shell variables.",
+	"Set the shell text buffer size."
 };
 
 int (*builtin_func[])(char, char **) = {
@@ -45,7 +48,8 @@ int (*builtin_func[])(char, char **) = {
 	&builtin_setvar,
 	&builtin_getvar,
 	&builtin_delvar,
-	&builtin_lsvar
+	&builtin_lsvar,
+	&builtin_buffer
 };
 
 int builtin_num()
@@ -150,8 +154,8 @@ int builtin_cd(char argc, char **arguments)
 
 int builtin_pwd(char argc, char **argv)
 {
-	char* cwd = malloc(CFG_BUFSIZE * sizeof(char));
-	if (getcwd(cwd, CFG_BUFSIZE * sizeof(char)) != NULL)
+	char* cwd = malloc(get_bufsize() * sizeof(char));
+	if (getcwd(cwd, get_bufsize() * sizeof(char)) != NULL)
 		printf("%s\n", cwd);
 	else
 	{
@@ -223,4 +227,19 @@ int builtin_lsvar(char argc, char **argv)
 				printf(" ");
 			printf(": '%s'\n", get_var_idx(c));
 		}
+}
+
+int builtin_buffer(char argc, char **argv)
+{	
+	char digits[16];
+	
+	if(argc != 2)
+	{
+		fprintf(stderr, "buffer: Expected exactly 1 argument!\n");
+		return -1;
+	}
+	
+	set_bufsize(atoi(argv[1]));
+	sprintf(digits, "%d", get_bufsize());
+	define_var("SH_BUFSIZE", digits);
 }
