@@ -1,6 +1,15 @@
-Format to follow when submitting issues:
+**Description**
 
-1. Description of the issue.
-2. Steps to reproduce the issue.
-3. uSH version.
-4. System OS/Version
+**Steps to Reproduce**
+
+**uSH Version** `ush --version`
+
+**Other Info**
+`:? lsvar`
+`:? uname -a`
+
+If the bug causes a crash:
+**GDB backtrace**
+`gdb ush`
+`(gdb) run`
+`(gdb) bt`
