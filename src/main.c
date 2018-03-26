@@ -43,7 +43,7 @@ int ush_main_loop()
 	while (1) {
 		char* line;
 		
-		printf("%d %s ", retval, get_var("SH_PROMPT"));
+		printf("%s ", get_var("SH_PROMPT"));
 		fflush(NULL);
 		
 		line = malloc(get_bufsize() * sizeof(char));
