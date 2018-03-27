@@ -8,6 +8,4 @@ script:
   - make clean
   - make all
   - make strip
-
-after_success:
-  - bin/ush-run —version
+  — bin/ush-run —help
