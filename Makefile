@@ -1,23 +1,35 @@
 CC=gcc
-CFLAGS=-MD -MP -c
+CFLAGS+=-MD -MP -g
 LDFLAGS=
 SOURCES=$(wildcard src/*.c)
 OBJECTS=$(SOURCES:.c=.o)
 DEPS=$(SOURCES:.c=.d)
-EXECUTABLE=ush
+BINDIR=bin
+EXECUTABLE=$(BINDIR)/ush-debug
+STRIPBIN=$(BINDIR)/ush-bin
 
-BUILDFILES=$(OBJECTS) $(DEPS) $(EXECUTABLE)
+BUILDFILES=$(OBJECTS) $(DEPS) $(EXECUTABLE) $(STRIPBIN) $(BINDIR)
 .PHONY=all
 
-all: $(SOURCES) $(EXECUTABLE)
+all: $(SOURCES) $(BINDIR) $(EXECUTABLE)
+strip: $(SOURCES) $(BINDIR) $(EXECUTABLE) $(STRIPBIN)
     
 $(EXECUTABLE): $(OBJECTS) 
 	@echo "[ LD ]  " $(OBJECTS) " -> " $(EXECUTABLE)
 	@$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
+$(STRIPBIN): $(EXECUTABLE)
+	@echo "[STRP]  " $(EXECUTABLE) " -> " $(STRIPBIN)
+	@cp $(EXECUTABLE) $(STRIPBIN)
+	@strip $(STRIPBIN)
+
+$(BINDIR):
+	@echo "[MKDR]  " $(BINDIR) 
+	@mkdir $(BINDIR)
+	
 .c.o:
 	@echo "[ CC ]  " $< " -> " $@
-	@$(CC) $(CFLAGS) $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@for FILE in $(BUILDFILES); do \

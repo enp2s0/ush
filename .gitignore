@@ -4,5 +4,5 @@
 # Ignore dependency files
 *.d
 
-# Ignore executable
-ush
+# Ignore executables
+bin/
