@@ -12,7 +12,7 @@
 
 char **split(char* cmd)
 {
-	char **args = malloc(CFG_BUFSIZE * sizeof(char *));
+	char **args = malloc(get_bufsize() * sizeof(char *));
 	
 	cmd = skipwhite(cmd);
 	char* next = strchr(cmd, ' ');
