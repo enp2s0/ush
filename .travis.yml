@@ -1,11 +1,13 @@
 language: c
 
 before_install:
-  - echo "Starting build..."
+  - export EXECUTABLE=bin/ush-debug
+  - export STRIPBIN=bin/ush-run
 
 script:
   - make clean
   - make all
+  - make strip
 
 after_success:
-  - echo "Build complete."
+  - bin/ush-run —version
