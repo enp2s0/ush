@@ -107,6 +107,28 @@ int builtin_help(char argc, char **arguments)
 		printf(": %s\n", builtin_descs[cnt]);
 	}
 	
+	printf("\nVariables:\n");
+	
+	int c = 0;
+	int i = 0;
+	space = 0;
+	maxlen = 0;
+	
+	for(i = 0; i < CFG_MAX_VARS; i++)
+		if(get_var_name_idx(i) != NULL)
+			if(strlen(get_var_name_idx(i)) > maxlen)
+				maxlen = strlen(get_var_name_idx(i));
+					
+	for(c = 0; c < CFG_MAX_VARS; c++)
+		if(get_var_name_idx(c) != NULL)
+		{
+			space = maxlen - strlen(get_var_name_idx(c));
+			printf("%s", get_var_name_idx(c));
+			for(i = 0; i < space; i++)
+				printf(" ");
+			printf(": '%s'\n", get_var_idx(c));
+		}
+	
 	return 0;
 }
 
