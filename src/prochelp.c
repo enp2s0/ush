@@ -21,4 +21,5 @@ void wait_on_process()
 	int i;
 	for (i = 0; i < n; ++i) 
 		wait(NULL); 
+	n = 0;
 }
