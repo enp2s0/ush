@@ -13,7 +13,7 @@
 #include "vars.h"
 #include "cfgopts.h"
 
-void init_shell(void)
+void init_shell()
 {
 	char digits[16];
 	
@@ -38,6 +38,11 @@ void init_shell(void)
 	printf(CFG_LONG_NAME "\n");
 }
 
+void uninit_shell()
+{
+	return;
+}
+
 int ush_main_loop()
 {
 	while (1) {
@@ -59,7 +64,7 @@ int ush_main_loop()
 		if ((strlen(line) <= 0) ||(line[strlen(line) - 1] != '\n'))
 		{
 			char ch;
-			while ((ch =getchar()) != '\n' && ch != EOF);
+			while ((ch = getchar()) != '\n' && ch != EOF);
 			fprintf(stderr, "Error: Line is truncated! Increase bufsize with --bufsize or 'buffer'.\n");
 			continue;
 		}
@@ -80,6 +85,7 @@ int ush_main_loop()
 		}
 		input = run(cmd, input, first, 1);
 		wait_on_process();
+		free(line);
 	}
 	return 0;
 }
@@ -87,6 +93,7 @@ int ush_main_loop()
 int main(char argc, char **argv)
 {
 	int i = 1;
+	int retval = 255;
 	
 	for(i = 1; i < argc; i++)
 	{
@@ -113,5 +120,7 @@ int main(char argc, char **argv)
 	}
 	
 	init_shell();
-	return ush_main_loop();
+	retval = ush_main_loop();
+	uninit_shell();
+	return retval;
 }

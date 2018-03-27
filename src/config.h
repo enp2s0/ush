@@ -14,7 +14,7 @@
 #endif
 
 #ifndef FALSE
-#define FALSE					0					// FALSE should always bs 0
+#define FALSE					0					// FALSE should always be 0
 #endif
 
 #ifndef NULL
