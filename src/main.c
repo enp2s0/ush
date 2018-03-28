@@ -44,6 +44,35 @@ void uninit_shell()
 	return;
 }
 
+void parse_args(char argc, char **argv)
+{
+	int i = 1;
+	
+	for(i = 1; i < argc; i++)
+	{
+		if(strcmp(argv[i], "--help") == 0)
+		{
+			printf("%s\n", CFG_LONG_NAME);
+			printf("Version %s", CFG_VERSION);
+			printf("\n");
+			printf("Options:\n");
+			printf("--help   : Display this help.\n");
+			printf("--version: Display version info.\n");
+			printf("--bufsize: Override default text buffer size.\n");
+			exit(0);
+		}
+		else if(strcmp(argv[i], "--version") == 0)
+		{
+			printf("%s v%s\n", CFG_SHORT_NAME, CFG_VERSION);
+			exit(0);
+		}
+		else if(strcmp(argv[i], "--bufsize") == 0)
+		{
+			set_bufsize(atoi(argv[i + 1]));
+		}
+	}
+}
+
 int ush_main_loop()
 {
 	while (1) {
@@ -93,34 +122,10 @@ int ush_main_loop()
 
 int main(char argc, char **argv)
 {
-	int i = 1;
 	int retval = 255;
-	
-	for(i = 1; i < argc; i++)
-	{
-		if(strcmp(argv[i], "--help") == 0)
-		{
-			printf("%s\n", CFG_LONG_NAME);
-			printf("Version %s", CFG_VERSION);
-			printf("\n");
-			printf("Options:\n");
-			printf("--help   : Display this help.\n");
-			printf("--version: Display version info.\n");
-			printf("--bufsize: Override default text buffer size.\n");
-			return 0;
-		}
-		else if(strcmp(argv[i], "--version") == 0)
-		{
-			printf("%s v%s\n", CFG_SHORT_NAME, CFG_VERSION);
-			return 0; 
-		}
-		else if(strcmp(argv[i], "--bufsize") == 0)
-		{
-			set_bufsize(atoi(argv[i + 1]));
-		}
-	}
-	
+		
 	init_shell();
+	parse_args(argc, argv);
 	retval = ush_main_loop();
 	uninit_shell();
 	return retval;
