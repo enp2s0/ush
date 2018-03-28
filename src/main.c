@@ -123,9 +123,9 @@ int ush_main_loop()
 int main(char argc, char **argv)
 {
 	int retval = 255;
-		
+	
+	parse_args(argc, argv);	
 	init_shell();
-	parse_args(argc, argv);
 	retval = ush_main_loop();
 	uninit_shell();
 	return retval;
