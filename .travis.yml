@@ -8,4 +8,7 @@ script:
   - make clean
   - make all
   - make strip
-  — bin/ush-run —help
+  - bin/ush-run —help
+  
+after_success:
+  - echo "Success!"
