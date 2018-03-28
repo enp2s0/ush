@@ -40,6 +40,7 @@ void init_shell()
 
 void uninit_shell()
 {
+	uninit_vars();
 	return;
 }
 

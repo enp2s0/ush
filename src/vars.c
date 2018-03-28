@@ -33,6 +33,19 @@ int init_vars()
 	return 0;
 }
 
+int uninit_vars()
+{
+	int i;
+	
+	for(i = 0; i < CFG_MAX_VARS; i++)
+	{
+		free(var_names[i]);
+		free(var_value[i]);
+	}
+	
+	return 0;
+}
+
 int define_var(char *name, char *value)
 {
 	int i;

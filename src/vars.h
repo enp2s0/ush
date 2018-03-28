@@ -8,5 +8,6 @@ char *get_var_name_idx(int index);
 int del_var(char *name);
 int num_vars(void);
 int init_vars(void);
+int uninit_vars(void);
 
 #endif
