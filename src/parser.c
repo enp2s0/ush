@@ -9,6 +9,7 @@
 
 #include "parser.h"
 #include "config.h"
+#include "cfgopts.h"
 
 char **split(char* cmd)
 {
