@@ -13,7 +13,6 @@
 #include "prochelp.h"
 #include "config.h"
 #include "builtins.h"
-#include "vars.h"
 
 int command(int input, int first, int last, char **args)
 {
@@ -73,38 +72,8 @@ int run(char* cmd, int input, int first, int last)
 
 	args = split(cmd);
 	
-	while(args[i] != NULL)
-	{
-		if(args[i][0] != '$')
-		{
-			i++;
-			continue;
-		}
-		
-		args[i]++;
-		
-		for(c = 0; c < num_vars(); c++)
-		{
-			if(strcmp(get_var_name_idx(c), args[i]) == 0)
-			{
-				found = TRUE;
-				args[i] = malloc(sizeof(get_var_idx(c)));
-				if(args[i] == NULL)
-				{
-					fprintf(stderr, "Memory allocation error!\n");
-					return -1;
-				}
-				strcpy(args[i], get_var_idx(c));
-			}
-		}
-		
-		if(found == FALSE)
-		{
-			fprintf(stderr, "$%s: No such variable!\n", args[i]);
-			return -1;
-		}
-		i++;
-	}
+	if(args == NULL)
+		return -1;
 	
 	if (args[0] != NULL) {
 		if(check_builtin(args[0]) == TRUE && args[0][strlen(args[0])-1] != '^')

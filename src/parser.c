@@ -10,6 +10,7 @@
 #include "parser.h"
 #include "config.h"
 #include "cfgopts.h"
+#include "vars.h"
 
 char **split(char* cmd)
 {
@@ -18,6 +19,8 @@ char **split(char* cmd)
 	cmd = skipwhite(cmd);
 	char* next = strchr(cmd, ' ');
 	int i = 0;
+	int c = 0;
+	int found = FALSE;
  
 	while(next != NULL) {
 		next[0] = '\0';
@@ -35,6 +38,39 @@ char **split(char* cmd)
 	}
  
 	args[i] = NULL;
+	
+	i = 0;
+	
+	while(args[i] != NULL)
+	{
+		if(args[i][0] != '$')
+		{
+			i++;
+			continue;
+		}
+		
+		args[i]++;
+		
+		for(c = 0; c < num_vars(); c++)
+			if(strcmp(get_var_name_idx(c), args[i]) == 0)
+			{
+				found = TRUE;
+				args[i] = malloc(sizeof(get_var_idx(c)));
+				if(args[i] == NULL)
+				{
+					fprintf(stderr, "Memory allocation error!\n");
+					exit(-1);
+				}
+				strcpy(args[i], get_var_idx(c));
+			}
+		
+		if(found == FALSE)
+		{
+			fprintf(stderr, "$%s: No such variable!\n", args[i]);
+			return NULL;
+		}
+		i++;
+	}
 	
 	return args;
 }
