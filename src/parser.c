@@ -41,6 +41,41 @@ char **split(char* cmd)
 	
 	i = 0;
 	
+	char* varname;
+	int var_set = FALSE;
+	
+	while(args[i] != NULL && args[i + 1] != NULL)
+	{
+		if(args[i][0] != '$' || args[i + 1][0] != '=')
+		{
+			i++;
+			continue;
+		}
+		
+		if(args[i + 2] == NULL)
+		{
+			fprintf(stderr, "Syntax Error\n");
+			args[0] = NULL;
+			return args;
+		}
+		
+		varname = malloc((sizeof(char) * strlen(args[i])) - 1);
+		strcpy(varname, args[i] + 1);
+		
+		define_var(varname, args[i + 2]);
+		var_set = TRUE;
+		free(varname);
+		i++;
+	}
+	
+	if(var_set == TRUE)
+	{
+		args[0] = NULL;
+		return args;
+	}
+	
+	i = 0;
+	
 	while(args[i] != NULL)
 	{
 		if(args[i][0] != '$')
