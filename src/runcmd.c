@@ -13,6 +13,7 @@
 #include "prochelp.h"
 #include "config.h"
 #include "builtins.h"
+#include "main.h"
 
 int command(int input, int first, int last, char **args)
 {
@@ -47,6 +48,7 @@ int command(int input, int first, int last, char **args)
 					break;
 			}
 			free(args);
+			uninit_shell();
 			_exit(EXIT_FAILURE);
 		}
 	}
@@ -73,7 +75,10 @@ int run(char* cmd, int input, int first, int last)
 	args = split(cmd);
 	
 	if(args == NULL)
+	{
+		free(args);
 		return -1;
+	}
 	
 	if (args[0] != NULL) {
 		if(check_builtin(args[0]) == TRUE && args[0][strlen(args[0])-1] != '^')
@@ -87,6 +92,6 @@ int run(char* cmd, int input, int first, int last)
 		return command(input, first, last, args);
 	}
 	
-	
+	free(args);
 	return -1;
 }

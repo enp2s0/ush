@@ -13,6 +13,8 @@
 #include "vars.h"
 #include "cfgopts.h"
 
+char* line = NULL;
+
 void init_shell()
 {
 	char digits[16];
@@ -41,6 +43,7 @@ void init_shell()
 void uninit_shell()
 {
 	uninit_vars();
+	free(line);
 	return;
 }
 
@@ -75,9 +78,7 @@ void parse_args(char argc, char **argv)
 
 int ush_main_loop()
 {
-	while (1) {
-		char* line;
-		
+	while (1) {		
 		printf("%s ", get_var("SH_PROMPT"));
 		fflush(NULL);
 		

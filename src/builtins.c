@@ -12,7 +12,7 @@
 #include "builtins.h"
 #include "vars.h"
 #include "cfgopts.h"
-
+#include "main.h"
 
 char *builtin_names[] = 
 {
@@ -135,6 +135,8 @@ int builtin_help(char argc, char **arguments)
 
 int builtin_exit(char argc, char **arguments)
 {
+	uninit_shell();
+	free(arguments);
 	exit(EXIT_SUCCESS);
 	fprintf(stderr, "Failed to kill process!\n");
 	return -1;

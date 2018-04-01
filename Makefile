@@ -15,8 +15,13 @@ all: $(SOURCES) $(BINDIR) $(EXECUTABLE)
 strip: $(SOURCES) $(BINDIR) $(EXECUTABLE) $(STRIPBIN)
 
 run: $(SOURCES) $(BINDIR) $(EXECUTABLE) $(STRIPBIN)
-	@echo "[ RN ]  " $(STRIPBIN)
 	@$(EXECUTABLE)
+
+debug: $(SOURCES) $(BINDIR) $(EXECUTABLE)
+	gdb $(EXECUTABLE)
+
+valgrind: $(SOURCES) $(BINDIR) $(EXECUTABLE)
+	valgrind --leak-check=full --show-leak-kinds=all $(EXECUTABLE)
     
 $(EXECUTABLE): $(OBJECTS) 
 	@echo "[ LD ]  " $(OBJECTS) " -> " $(EXECUTABLE)
