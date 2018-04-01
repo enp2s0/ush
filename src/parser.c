@@ -54,7 +54,14 @@ char **split(char* cmd)
 		
 		if(args[i + 2] == NULL)
 		{
-			fprintf(stderr, "Syntax Error\n");
+			fprintf(stderr, "Syntax Error: Variable assignment requires right operand.\n");
+			args[0] = NULL;
+			return args;
+		}
+		
+		if(args[i + 3] != NULL)
+		{
+			fprintf(stderr, "Syntax Error: Extra argument after variable assignment.\n");
 			args[0] = NULL;
 			return args;
 		}
