@@ -15,13 +15,13 @@
 char **split(char* cmd)
 {
 	char **args = malloc(get_bufsize() * sizeof(char *));
-	
+		
 	cmd = skipwhite(cmd);
 	char* next = strchr(cmd, ' ');
 	int i = 0;
 	int c = 0;
 	int found = FALSE;
- 
+	
 	while(next != NULL) {
 		next[0] = '\0';
 		args[i] = cmd;

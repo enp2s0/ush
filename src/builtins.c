@@ -40,7 +40,8 @@ char *builtin_descs[] =
 	"Set the shell text buffer size."
 };
 
-int (*builtin_func[])(char, char **) = {
+int (*builtin_func[])(char, char **) = 
+{
 	&builtin_help,
 	&builtin_exit,
 	&builtin_cd,
@@ -178,7 +179,16 @@ int builtin_pwd(char argc, char **argv)
 {
 	char* cwd = malloc(get_bufsize() * sizeof(char));
 	if (getcwd(cwd, get_bufsize() * sizeof(char)) != NULL)
+	{
+		if(cwd[strlen(cwd) - 1] != '/')
+		{
+			int len = strlen(cwd);
+			cwd = realloc(cwd, sizeof(char*) + len + 1);
+			cwd[len] = '/';
+			cwd[len + 1] = '\0';
+		}
 		printf("%s\n", cwd);
+	}
 	else
 	{
 		perror("getcwd() error");
