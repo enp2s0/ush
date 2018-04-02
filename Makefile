@@ -7,22 +7,28 @@ DEPS=$(SOURCES:.c=.d)
 BINDIR=bin
 EXECUTABLE=$(BINDIR)/ush-debug
 STRIPBIN=$(BINDIR)/ush-bin
+INSTBIN=ush
+INSTALLDIR=/bin
 VGCORE=$(wildcard vgcore.*)
 
 BUILDFILES=$(OBJECTS) $(DEPS) $(EXECUTABLE) $(STRIPBIN) $(BINDIR) $(VGCORE)
 .PHONY=all
 
-all: $(SOURCES) $(BINDIR) $(EXECUTABLE)
 strip: $(SOURCES) $(BINDIR) $(EXECUTABLE) $(STRIPBIN)
+exec: $(SOURCES) $(BINDIR) $(EXECUTABLE)
 
 run: $(SOURCES) $(BINDIR) $(EXECUTABLE) $(STRIPBIN)
 	@$(EXECUTABLE)
 
 debug: $(SOURCES) $(BINDIR) $(EXECUTABLE)
-	gdb $(EXECUTABLE)
+	@gdb $(EXECUTABLE)
 
 valgrind: $(SOURCES) $(BINDIR) $(EXECUTABLE)
-	valgrind --leak-check=full --show-leak-kinds=all $(EXECUTABLE)
+	@valgrind --leak-check=full --show-leak-kinds=all $(EXECUTABLE)
+	
+install: $(SOURCES) $(BINDIR) $(EXECUTABLE) $(STRIPBIN)
+	@echo "[INST]  " $(STRIPBIN) " -> " $(INSTALLDIR)/$(INSTBIN) 
+	@install -m=755 $(STRIPBIN) $(INSTALLDIR)/$(INSTBIN)
     
 $(EXECUTABLE): $(OBJECTS) 
 	@echo "[ LD ]  " $(OBJECTS) " -> " $(EXECUTABLE)

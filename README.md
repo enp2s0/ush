@@ -9,20 +9,22 @@
 A micro-shell for the Linux OS. It supports I/O piping and has a few builtins. It is considerably smaller that bash, zsh, etc.
 It also has no dependencies, making it extremely portable.  
   
-The build process is extremely simple:  
-`make all` to build.  
-`./ush` to run.  
-`make clean` to clean the source tree and remove binaries/objects.  
-
-# Syntax
-
+The build process is extremely simple:    
+`make clean`         Clean the source tree  
+`make`               Compile uSH  
+`sudo make install`  Install  
+  
+The Makefile installs uSH as /bin/ush by default. Change the value of $INSTALLDIR and $INSTBIN to change that location.  
+  
+# Syntax  
+  
 Run a single command:  
 `:? <command> <arguments>`  
 Pipe multiple commands together:  
 `:? <command1> <arg1> | <command2> <arg2>`  
 Run a system command with the same name as a builtin command:  
 `:? <command>^ <arguments>`  
-Use a shell variable as a command:  
-`:? $var <arguments>`  
-Use a shell variable as an argument:  
-`:? <command> $var`  
+Variables can be used on the command line:  
+`:? $I_Am_A_Command $I_Am_An_Argument`  
+Variables can be assigned on the command line:  
+`:? $var = value`  
