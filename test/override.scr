@@ -1,0 +1,7 @@
+echo ---------- OVERRIDE TEST ----------
+echo Builtin PWD:
+pwd
+echo
+echo System PWD:
+pwd^
+echo ---------- OVERRIDE DONE ----------

@@ -94,23 +94,25 @@ char **split(char* cmd)
 		args[i]++;
 		
 		for(c = 0; c < num_vars(); c++)
-			if(strcmp(get_var_name_idx(c), args[i]) == 0)
-			{
-				found = TRUE;
-				args[i] = malloc(sizeof(get_var_idx(c)));
-				if(args[i] == NULL)
+			if(get_var_name_idx(c) != NULL && args[i] != NULL)
+				if(strcmp(get_var_name_idx(c), args[i]) == 0)
 				{
-					fprintf(stderr, "Memory allocation error!\n");
-					exit(-1);
+					found = TRUE;
+					args[i] = malloc(sizeof(get_var_idx(c)));
+					if(args[i] == NULL)
+					{
+						fprintf(stderr, "Memory allocation error!\n");
+						exit(-1);
+					}
+					strcpy(args[i], get_var_idx(c));
 				}
-				strcpy(args[i], get_var_idx(c));
-			}
 		
 		if(found == FALSE)
 		{
 			fprintf(stderr, "$%s: No such variable!\n", args[i]);
 			return NULL;
 		}
+		found = FALSE;
 		i++;
 	}
 	

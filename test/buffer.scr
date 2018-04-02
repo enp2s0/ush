@@ -1,0 +1,11 @@
+echo ---------- BUFFER TEST -----------
+echo Current Buffer:
+echo $SH_BUFSIZE
+echo
+echo Changing to 8192 bytes...
+buffer 8192
+echo
+echo New Buffer:
+echo $SH_BUFSIZE
+echo ---------- BUFFER DONE -----------
+exit

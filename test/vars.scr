@@ -1,0 +1,17 @@
+echo ---------- VARS TEST ----------
+echo Using `setvar` and `getvar`, setting TEST to "hello":
+setvar TEST hello
+echo TEST =
+getvar TEST
+echo
+echo Using inline assignment and access, setting TEST2 to "world":
+$TEST2 = world
+echo TEST2 = $TEST2
+echo
+echo Deleting vars with `delvar`:
+echo Current: TEST = $TEST; TEST2 = $TEST2
+delvar TEST
+delvar TEST2
+echo New: TEST = $TEST; TEST2 = $TEST2
+echo ---------- VARS DONE ----------
+exit

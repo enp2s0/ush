@@ -19,8 +19,12 @@ void init_shell()
 {
 	char digits[16];
 	
-	printf("Loading...\n");
-	init_vars();
+	
+	if(get_var("SH_SCRIPT") == NULL)
+	{
+		define_var("SH_SCRIPT", "(none)");
+		printf("Loading...\n");
+	}
 	
 	define_var("SH_PROMPT", CFG_PROMPT);
 	define_var("SH_NAME", CFG_SHORT_NAME);
@@ -31,13 +35,19 @@ void init_shell()
 	sprintf(digits, "%d", CFG_MAX_VARS);
 	define_var("SH_MAXVARS", digits);
 	
+	if(get_var("SH_SCRIPT") == NULL)
+		define_var("SH_SCRIPT", "(none)");
+	
 	if(get_bufsize() != CFG_BUFSIZE)
 	{
-		printf("Warning: Using custom buffer size: %d bytes.\n", get_bufsize());
+		fprintf(stderr, "Warning: Using custom buffer size: %d bytes.\n", get_bufsize());
 	}
 	
-	printf("Done!\n");
-	printf(CFG_LONG_NAME "\n");
+	if(strcmp(get_var("SH_SCRIPT"), "(none)") == 0)
+	{
+		printf("Done!\n");
+		printf(CFG_LONG_NAME "\n");
+	}
 }
 
 void uninit_shell()
@@ -72,14 +82,38 @@ void parse_args(char argc, char **argv)
 		else if(strcmp(argv[i], "--bufsize") == 0)
 		{
 			set_bufsize(atoi(argv[i + 1]));
+			i++;
+		}
+		else if(strcmp(argv[i], "--script") == 0)
+		{
+			if(argc <= i + 1)
+			{
+				fprintf(stderr, "--script requires an argument!\n");
+				uninit_vars();
+				exit(-1);
+			}
+			define_var("SH_SCRIPT", argv[i + 1]);
 		}
 	}
 }
 
 int ush_main_loop()
 {
-	while (1) {		
-		printf("%s ", get_var("SH_PROMPT"));
+	FILE* in_pipe = stdin;
+	
+	if(strcmp(get_var("SH_SCRIPT"), "(none)") != 0)
+	{
+		in_pipe = fopen(get_var("SH_SCRIPT"), "r");
+		if(in_pipe == NULL)
+		{
+			fprintf(stderr, "Could not open script file!\n");
+			return -1;
+		}
+	}
+	
+	while (1) {
+		if(strcmp(get_var("SH_SCRIPT"), "(none)") == 0)	
+			printf("%s ", get_var("SH_PROMPT"));
 		fflush(NULL);
 		
 		line = malloc(get_bufsize() * sizeof(char));
@@ -89,7 +123,7 @@ int ush_main_loop()
 			return -1;
 		}
  
-		if (!fgets(line, get_bufsize(), stdin)) 
+		if (!fgets(line, get_bufsize(), in_pipe)) 
 			return -1;
 		
 		if ((strlen(line) <= 0) ||(line[strlen(line) - 1] != '\n'))
@@ -125,6 +159,7 @@ int main(char argc, char **argv)
 {
 	int retval = 255;
 	
+	init_vars();
 	parse_args(argc, argv);	
 	init_shell();
 	retval = ush_main_loop();
