@@ -6,7 +6,7 @@ before_install:
 
 script:
   - make clean
-  - make all
+  - make
   - make strip
   - bin/ush-bin --help
   
