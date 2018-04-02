@@ -63,7 +63,6 @@ int command(int input, int first, int last, char **args)
 	if (last == 1)
 		close(pipettes[READ]);
  
-	free(args);
 	return pipettes[READ];
 }
 
