@@ -66,7 +66,7 @@ char **split(char* cmd)
 			return args;
 		}
 		
-		varname = malloc((sizeof(char) * strlen(args[i])) - 1);
+		varname = malloc(sizeof(char) * strlen(args[i]));
 		strcpy(varname, args[i] + 1);
 		
 		define_var(varname, args[i + 2]);

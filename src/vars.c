@@ -74,14 +74,14 @@ int define_var(char *name, char *value)
 		return -1;
 	}
 
-        var_value[i] = realloc(var_value[i], sizeof(char) * strlen(value));
+        var_value[i] = realloc(var_value[i], sizeof(char) * (strlen(value) + 1));
         if(var_value[i] == NULL)
         {
                 fprintf(stderr, "Memory allocation error!\n");
                 return -1;
         }
 
-        var_names[i] = realloc(var_names[i], sizeof(char) * strlen(name));
+        var_names[i] = realloc(var_names[i], sizeof(char) * (strlen(name) + 1));
         if(var_names[i] == NULL)
         {
                 fprintf(stderr, "Memory allocation error!\n");

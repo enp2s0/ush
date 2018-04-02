@@ -51,6 +51,8 @@ int command(int input, int first, int last, char **args)
 			uninit_shell();
 			_exit(EXIT_FAILURE);
 		}
+		free(args);
+		uninit_shell();
 	}
  
 	if (input != 0) 
@@ -67,10 +69,8 @@ int command(int input, int first, int last, char **args)
 
 int run(char* cmd, int input, int first, int last)
 {
-	char **args;
-	int i = 0;
-	int c = 0;
-	int found = FALSE;
+	char **args = NULL;
+	int retval = -1;
 
 	args = split(cmd);
 	
@@ -89,7 +89,9 @@ int run(char* cmd, int input, int first, int last)
 			args[0][strlen(args[0])-1] = '\0';
 		}
 		register_process();
-		return command(input, first, last, args);
+		retval = command(input, first, last, args);
+		free(args);
+		return retval;
 	}
 	
 	free(args);
