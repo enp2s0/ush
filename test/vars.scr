@@ -9,9 +9,10 @@ $TEST2 = world
 echo TEST2 = $TEST2
 echo
 echo Deleting vars with `delvar`:
-echo Current: TEST = $TEST; TEST2 = $TEST2
+echo Current: TEST = $TEST TEST2 = $TEST2
 delvar TEST
 delvar TEST2
-echo New: TEST = $TEST; TEST2 = $TEST2
+echo New: TEST = $TEST 
+echo      TEST2 = $TEST2
 echo ---------- VARS DONE ----------
 exit

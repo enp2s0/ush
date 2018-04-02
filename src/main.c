@@ -14,6 +14,7 @@
 #include "cfgopts.h"
 
 char* line = NULL;
+FILE* in_pipe = NULL;
 
 void init_shell()
 {
@@ -53,6 +54,8 @@ void init_shell()
 void uninit_shell()
 {
 	uninit_vars();
+	if(in_pipe != NULL && in_pipe != stdin)
+		fclose(in_pipe);
 	free(line);
 	return;
 }
@@ -98,9 +101,7 @@ void parse_args(char argc, char **argv)
 }
 
 int ush_main_loop()
-{
-	FILE* in_pipe = stdin;
-	
+{	
 	if(strcmp(get_var("SH_SCRIPT"), "(none)") != 0)
 	{
 		in_pipe = fopen(get_var("SH_SCRIPT"), "r");

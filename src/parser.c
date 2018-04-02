@@ -109,7 +109,7 @@ char **split(char* cmd)
 		
 		if(found == FALSE)
 		{
-			fprintf(stderr, "$%s: No such variable!\n", args[i]);
+			fprintf(stderr, "'$%s': No such variable!\n", args[i]);
 			return NULL;
 		}
 		found = FALSE;
