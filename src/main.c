@@ -24,6 +24,7 @@ void init_shell()
 	if(get_var("SH_SCRIPT") == NULL)
 	{
 		define_var("SH_SCRIPT", "(none)");
+		in_pipe = stdin;
 		printf("Loading...\n");
 	}
 	

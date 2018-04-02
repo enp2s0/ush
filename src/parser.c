@@ -110,6 +110,7 @@ char **split(char* cmd)
 		if(found == FALSE)
 		{
 			fprintf(stderr, "'$%s': No such variable!\n", args[i]);
+			free(args);
 			return NULL;
 		}
 		found = FALSE;

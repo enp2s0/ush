@@ -6,4 +6,4 @@
 
 # Ignore executables
 bin/
-*.2049
+vgcore.*
