@@ -25,17 +25,19 @@ void init_shell()
 	{
 		define_var("SH_SCRIPT", "(none)");
 		in_pipe = stdin;
-		printf("Loading...\n");
 	}
 	
-	define_var("SH_PROMPT", CFG_PROMPT);
-	define_var("SH_NAME", CFG_SHORT_NAME);
-	define_var("SH_DESC", CFG_LONG_NAME);
-	define_var("SH_VERSION", CFG_VERSION);
-	sprintf(digits, "%d", get_bufsize());
-	define_var("SH_BUFSIZE", digits);
-	sprintf(digits, "%d", CFG_MAX_VARS);
-	define_var("SH_MAXVARS", digits);
+	if(get_var("SH_MINIMAL") == NULL || strcmp(get_var("SH_MINIMAL"), "true") != 0)
+	{
+		define_var("SH_PROMPT", CFG_PROMPT);
+		define_var("SH_NAME", CFG_SHORT_NAME);
+		define_var("SH_DESC", CFG_LONG_NAME);
+		define_var("SH_VERSION", CFG_VERSION);
+		sprintf(digits, "%d", get_bufsize());
+		define_var("SH_BUFSIZE", digits);
+		sprintf(digits, "%d", CFG_MAX_VARS);
+		define_var("SH_MAXVARS", digits);
+	}
 	
 	if(get_var("SH_SCRIPT") == NULL)
 		define_var("SH_SCRIPT", "(none)");
@@ -45,11 +47,14 @@ void init_shell()
 		fprintf(stderr, "Warning: Using custom buffer size: %d bytes.\n", get_bufsize());
 	}
 	
-	if(strcmp(get_var("SH_SCRIPT"), "(none)") == 0)
+	if(strcmp(get_var("SH_SCRIPT"), "(none)") == 0 && get_var("SH_MINIMAL") == NULL)
 	{
 		printf("Done!\n");
 		printf(CFG_LONG_NAME "\n");
 	}
+	
+	if(get_var("SH_MINIMAL") == NULL)
+		define_var("SH_MINIMAL", "false");
 }
 
 void uninit_shell()
@@ -97,6 +102,10 @@ void parse_args(char argc, char **argv)
 				exit(-1);
 			}
 			define_var("SH_SCRIPT", argv[i + 1]);
+		}
+		else if(strcmp(argv[i], "--minimal") == 0)
+		{
+			define_var("SH_MINIMAL", "true");
 		}
 	}
 }
