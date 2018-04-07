@@ -14,6 +14,7 @@
 #include "config.h"
 #include "builtins.h"
 #include "main.h"
+#include "signals.h"
 
 int command(int input, int first, int last, char **args)
 {
@@ -24,6 +25,8 @@ int command(int input, int first, int last, char **args)
 	pid = fork();
 
 	if (pid == 0) {
+		unhandle_signal(SIGINT);
+		
 		if (first == 1 && last == 0 && input == 0) {
 			dup2(pipettes[WRITE], STDOUT_FILENO);
 		} else if (first == 0 && last == 0 && input != 0) {
@@ -62,7 +65,7 @@ int command(int input, int first, int last, char **args)
  
 	if (last == 1)
 		close(pipettes[READ]);
- 
+		
 	return pipettes[READ];
 }
 

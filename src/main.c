@@ -12,6 +12,7 @@
 #include "prochelp.h"
 #include "vars.h"
 #include "cfgopts.h"
+#include "signals.h"
 
 char* line = NULL;
 FILE* in_pipe = NULL;
@@ -170,6 +171,7 @@ int main(char argc, char **argv)
 {
 	int retval = 255;
 	
+	init_signals();
 	init_vars();
 	parse_args(argc, argv);	
 	init_shell();
