@@ -269,11 +269,12 @@ int builtin_buffer(char argc, char **argv)
 	
 	if(argc != 2)
 	{
-		fprintf(stderr, "buffer: Expected exactly 1 argument!\n");
-		return -1;
+		printf("%d\n", get_bufsize());
+		return 0;
 	}
 	
 	set_bufsize(atoi(argv[1]));
 	sprintf(digits, "%d", get_bufsize());
 	define_var("SH_BUFSIZE", digits);
+	return 0;
 }
