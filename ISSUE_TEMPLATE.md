@@ -1,15 +1,16 @@
-**Description**
+**Description**  
 
-**Steps to Reproduce**
+**Steps to Reproduce**  
 
-**uSH Version** `ush --version`
+**uSH Version**  
+`ush --version`  
 
-**Other Info**
-`:? lsvar`
-`:? uname -a`
+**Other Info**  
+`:? lsvar`  
+`:? uname -a`  
 
-If the bug causes a crash:
-**GDB backtrace**
-`gdb ush`
-`(gdb) run`
-`(gdb) bt`
+If the bug causes a crash:  
+**GDB backtrace**  
+`gdb ush`  
+`(gdb) run`  
+`(gdb) bt`  
