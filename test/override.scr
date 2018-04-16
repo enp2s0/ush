@@ -5,3 +5,4 @@ echo
 echo System PWD:
 pwd^
 echo ---------- OVERRIDE DONE ----------
+exit
