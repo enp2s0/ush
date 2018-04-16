@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
- 
+
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <errno.h>
@@ -14,7 +14,7 @@
 #include "cfgopts.h"
 #include "main.h"
 
-char *builtin_names[] = 
+char *builtin_names[] =
 {
 	"help",
 	"exit",
@@ -27,7 +27,7 @@ char *builtin_names[] =
 	"buffer"
 };
 
-char *builtin_descs[] = 
+char *builtin_descs[] =
 {
 	"Display this help text.",
 	"Quit uSH.",
@@ -40,7 +40,7 @@ char *builtin_descs[] =
 	"Set the shell text buffer size."
 };
 
-int (*builtin_func[])(char, char **) = 
+int (*builtin_func[])(char, char **) =
 {
 	&builtin_help,
 	&builtin_exit,
@@ -61,7 +61,7 @@ int builtin_num()
 int check_builtin(char *name)
 {
 	int i;
-	
+
 	for(i = 0; i < builtin_num(); i++)
 		if(strcmp(name, builtin_names[i]) == 0)
 			return TRUE;
@@ -73,11 +73,11 @@ int run_builtin(char **args)
 	int i;
 	int retval;
 	char argc;
-	
+
 	for(i = 0; i < builtin_num(); i++)
 		if(strcmp(args[0], builtin_names[i]) == 0)
 			break;
-	
+
 	argc = -1;
 	while (args[++argc] != NULL) ;;
 	retval = (*builtin_func[i])(argc, args);
@@ -90,16 +90,16 @@ int builtin_help(char argc, char **arguments)
 	printf(CFG_LONG_NAME "\n");
 	printf("Written by Noah Brecht\n");
 	printf("\n");
-	
+
 	printf("Shell Builtins:\n");
 	int cnt;
 	int len;
 	int maxlen = 0;
 	int space;
-	
+
 	for(cnt = 0; cnt < builtin_num(); cnt++)
 		if(strlen(builtin_names[cnt]) > maxlen) maxlen = strlen(builtin_names[cnt]);
-	
+
 	for(cnt = 0; cnt < builtin_num(); cnt++)
 	{
 		len = maxlen - strlen(builtin_names[cnt]);
@@ -107,19 +107,18 @@ int builtin_help(char argc, char **arguments)
 		for(space = 0; space < len; space++) printf(" ");
 		printf(": %s\n", builtin_descs[cnt]);
 	}
-	
+
 	printf("\nVariables:\n");
-	
+
 	int c = 0;
 	int i = 0;
 	space = 0;
 	maxlen = 0;
-	
+
 	for(i = 0; i < CFG_MAX_VARS; i++)
-		if(get_var_name_idx(i) != NULL)
-			if(strlen(get_var_name_idx(i)) > maxlen)
-				maxlen = strlen(get_var_name_idx(i));
-					
+		if(get_var_name_idx(i) != NULL && strlen(get_var_name_idx(i)) > maxlen)
+			maxlen = strlen(get_var_name_idx(i));
+
 	for(c = 0; c < CFG_MAX_VARS; c++)
 		if(get_var_name_idx(c) != NULL)
 		{
@@ -129,7 +128,7 @@ int builtin_help(char argc, char **arguments)
 				printf(" ");
 			printf(": '%s'\n", get_var_idx(c));
 		}
-	
+
 	return 0;
 }
 
@@ -149,11 +148,11 @@ int builtin_cd(char argc, char **arguments)
 		fprintf(stderr, "cd: expects exactly one argument!\n");
 		return 1;
 	}
-	
+
 	char* path = malloc(sizeof(arguments[1] + 2));
 	strcpy(path, arguments[1]);
 	strcat(path, "/");
-	
+
 	errno = 0;
 	if(chdir(path) != 0)
 	{
@@ -172,7 +171,7 @@ int builtin_cd(char argc, char **arguments)
 		free(path);
 		return 1;
 	}
-	
+
 	free(path);
 	return 0;
 }
@@ -197,7 +196,7 @@ int builtin_pwd(char argc, char **argv)
 		free(cwd);
 		return 1;
 	}
-	
+
 	free(cwd);
 	return 0;
 }
@@ -209,18 +208,18 @@ int builtin_setvar(char argc, char **argv)
 		fprintf(stderr, "setvar: expected exactly 2 arguments!\n");
 		return 1;
 	}
-	
+
 	return define_var(argv[1], argv[2]);
 }
 
 int builtin_getvar(char argc, char **argv)
-{	
+{
 	if(argc != 2)
 	{
 		fprintf(stderr, "getvar: expected exactly 1 argument!\n");
-		return 1;		
+		return 1;
 	}
-	
+
 	if(get_var(argv[1]) == NULL)
 	{
 		fprintf(stderr, "No such variable!\n");
@@ -234,9 +233,9 @@ int builtin_delvar(char argc, char **argv)
 	if(argc != 2)
 	{
 		fprintf(stderr, "getvar: expected exactly 1 argument!\n");
-		return 1;		
+		return 1;
 	}
-	
+
 	return del_var(argv[1]);
 }
 
@@ -246,12 +245,12 @@ int builtin_lsvar(char argc, char **argv)
 	int i = 0;
 	int spaces = 0;
 	int maxlen = 0;
-	
+
 	for(i = 0; i < CFG_MAX_VARS; i++)
 		if(get_var_name_idx(i) != NULL)
 			if(strlen(get_var_name_idx(i)) > maxlen)
 				maxlen = strlen(get_var_name_idx(i));
-					
+
 	for(c = 0; c < CFG_MAX_VARS; c++)
 		if(get_var_name_idx(c) != NULL)
 		{
@@ -264,15 +263,15 @@ int builtin_lsvar(char argc, char **argv)
 }
 
 int builtin_buffer(char argc, char **argv)
-{	
+{
 	char digits[16];
-	
+
 	if(argc != 2)
 	{
 		printf("%d\n", get_bufsize());
 		return 0;
 	}
-	
+
 	set_bufsize(atoi(argv[1]));
 	sprintf(digits, "%d", get_bufsize());
 	define_var("SH_BUFSIZE", digits);
