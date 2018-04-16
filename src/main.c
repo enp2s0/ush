@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
- 
+
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -20,14 +20,14 @@ FILE* in_pipe = NULL;
 void init_shell()
 {
 	char digits[16];
-	
-	
+
+
 	if(get_var("SH_SCRIPT") == NULL)
 	{
 		define_var("SH_SCRIPT", "(none)");
 		in_pipe = stdin;
 	}
-	
+
 	if(get_var("SH_MINIMAL") == NULL || strcmp(get_var("SH_MINIMAL"), "true") != 0)
 	{
 		define_var("SH_PROMPT", CFG_PROMPT);
@@ -39,21 +39,21 @@ void init_shell()
 		sprintf(digits, "%d", CFG_MAX_VARS);
 		define_var("SH_MAXVARS", digits);
 	}
-	
+
 	if(get_var("SH_SCRIPT") == NULL)
 		define_var("SH_SCRIPT", "(none)");
-	
+
 	if(get_bufsize() != CFG_BUFSIZE)
 	{
 		fprintf(stderr, "Warning: Using custom buffer size: %d bytes.\n", get_bufsize());
 	}
-	
+
 	if(strcmp(get_var("SH_SCRIPT"), "(none)") == 0 && get_var("SH_MINIMAL") == NULL)
 	{
 		printf("Done!\n");
 		printf(CFG_LONG_NAME "\n");
 	}
-	
+
 	if(get_var("SH_MINIMAL") == NULL)
 		define_var("SH_MINIMAL", "false");
 }
@@ -70,7 +70,7 @@ void uninit_shell()
 void parse_args(char argc, char **argv)
 {
 	int i = 1;
-	
+
 	for(i = 1; i < argc; i++)
 	{
 		if(strcmp(argv[i], "--help") == 0)
@@ -112,7 +112,13 @@ void parse_args(char argc, char **argv)
 }
 
 int ush_main_loop()
-{	
+{
+	int input = 0;
+	int first = 1;
+
+	char* cmd = NULL;
+	char* next = NULL;
+
 	if(strcmp(get_var("SH_SCRIPT"), "(none)") != 0)
 	{
 		in_pipe = fopen(get_var("SH_SCRIPT"), "r");
@@ -122,22 +128,22 @@ int ush_main_loop()
 			return -1;
 		}
 	}
-	
+
 	while (1) {
-		if(strcmp(get_var("SH_SCRIPT"), "(none)") == 0)	
+		if(strcmp(get_var("SH_SCRIPT"), "(none)") == 0)
 			printf("%s ", get_var("SH_PROMPT"));
 		fflush(NULL);
-		
+
 		line = malloc(get_bufsize() * sizeof(char));
 		if(line == NULL)
 		{
 			fprintf(stderr, "Memory allocation error!\n");
 			return -1;
 		}
- 
-		if (!fgets(line, get_bufsize(), in_pipe)) 
+
+		if (!fgets(line, get_bufsize(), in_pipe))
 			return -1;
-		
+
 		if ((strlen(line) <= 0) ||(line[strlen(line) - 1] != '\n'))
 		{
 			char ch;
@@ -145,17 +151,14 @@ int ush_main_loop()
 			fprintf(stderr, "Error: Line is truncated! Increase bufsize with --bufsize or 'buffer'.\n");
 			continue;
 		}
- 
-		int input = 0;
-		int first = 1;
- 
-		char* cmd = line;
-		char* next = strchr(cmd, '|');
- 
+
+		cmd = line;
+		next = strchr(cmd, '|');
+
 		while (next != NULL) {
 			*next = '\0';
 			input = run(cmd, input, first, 0);
- 
+
 			cmd = next + 1;
 			next = strchr(cmd, '|');
 			first = 0;
@@ -170,10 +173,10 @@ int ush_main_loop()
 int main(char argc, char **argv)
 {
 	int retval = 255;
-	
+
 	init_signals();
 	init_vars();
-	parse_args(argc, argv);	
+	parse_args(argc, argv);
 	init_shell();
 	retval = ush_main_loop();
 	uninit_shell();
