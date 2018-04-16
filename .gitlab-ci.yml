@@ -2,10 +2,10 @@ image: gcc
 
 build:
   stage: build
-  before_script: 
-    - apt update && apt -y install make autoconf 
+  before_script:
+    - apt update && apt -y install make autoconf
     - make clean
-  script: 
+  script:
     - make strip
   artifacts:
     paths:
@@ -17,3 +17,7 @@ test:
   stage: test
   script:
     - /bin/ush-bin --help
+    - /bin/ush-bin --script ./test/buffer.scr
+    - /bin/ush-bin --script ./test/help.scr
+    - /bin/ush-bin --script ./test/override.scr
+    - /bin/ush-bin --script ./test/vars.scr
