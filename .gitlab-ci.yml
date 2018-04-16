@@ -9,15 +9,15 @@ build:
     - make strip
   artifacts:
     paths:
-      - /bin/ush-debug
-      - /bin/ush-bin
+      - ./bin/ush-debug
+      - ./bin/ush-bin
 
 # run tests using the binary built before
 test:
   stage: test
   script:
-    - /bin/ush-bin --help
-    - /bin/ush-bin --script ./test/buffer.scr
-    - /bin/ush-bin --script ./test/help.scr
-    - /bin/ush-bin --script ./test/override.scr
-    - /bin/ush-bin --script ./test/vars.scr
+    - ./bin/ush-bin --help
+    - ./bin/ush-bin --script ./test/buffer.scr
+    - ./bin/ush-bin --script ./test/help.scr
+    - ./bin/ush-bin --script ./test/override.scr
+    - ./bin/ush-bin --script ./test/vars.scr
