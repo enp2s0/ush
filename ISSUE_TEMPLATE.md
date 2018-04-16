@@ -1,16 +1,16 @@
-**Description**  
+**Description of the Bug**  
 
 **Steps to Reproduce**  
 
 **uSH Version**  
-`ush --version`  
+Output of `ush --version`:  
 
 **Other Info**  
-`:? lsvar`  
-`:? uname -a`  
+Output of `:? lsvar`:  
+Output of `:? uname -a`:  
 
 If the bug causes a crash:  
 **GDB backtrace**  
-`gdb ush`  
+`gdb bin/ush-debug`  
 `(gdb) run`  
-`(gdb) bt`  
+Output of `(gdb) bt`:  
