@@ -7,9 +7,15 @@ A micro-shell for the Linux OS. It supports I/O piping and has a few builtins. I
 It also has no dependencies, making it extremely portable.  
   
 The build process is extremely simple:    
-Clean the source tree: `make clean`    
-Compile uSH:           `make`    
-Install:               `sudo make install`   
+Clean the source tree:
+`make clean`  
+  
+Compile uSH:
+`make`  
+  
+Install:
+`sudo make install`  
+    
   
 The Makefile installs uSH as /bin/ush by default. Change the value of $INSTALLDIR and $INSTBIN to change that location.  
   
