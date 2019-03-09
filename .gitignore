@@ -7,3 +7,6 @@
 # Ignore executables
 bin/
 vgcore.*
+
+# Ignore IDE configs
+settings.json
