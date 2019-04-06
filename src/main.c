@@ -21,7 +21,6 @@ void init_shell()
 {
 	char digits[16];
 
-
 	if(get_var("SH_SCRIPT") == NULL)
 	{
 		define_var("SH_SCRIPT", "(none)");
